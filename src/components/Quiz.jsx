@@ -1,79 +1,49 @@
-/*import { useCallback, useState } from "react";
-
+import { useState } from "react";
+import FrontPage from "./FrontPage";
 import QUESTIONS from "../questions";
 import Question from "./Question";
 import Summary from "./Summary";
 
 export default function Quiz() {
+  const [firstName, setFirstName] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [userAnswers, setUserAnswers] = useState([]);
 
-  const activeQuestionIndex = userAnswers.length;
-  const quizIsComplete = activeQuestionIndex === QUESTIONS.length;
-
-  const handleSelectAnswer = useCallback(function handleSelectAnswer(
-    selectedAnswer
-  ) {
-    setUserAnswers((prevUserAnswers) => {
-      return [...prevUserAnswers, selectedAnswer];
-    });
-  },
-  []);
-
-  const handleSkipAnswer = useCallback(
-    () => handleSelectAnswer(null),
-    [handleSelectAnswer]
+  const filteredQuestions = QUESTIONS.filter(
+    (q) => q.category === selectedCategory
   );
 
-  if (quizIsComplete) {
-    return <Summary userAnswers={userAnswers} />;
-  }
-
-  return (
-    <div id="quiz">
-      <Question
-        key={activeQuestionIndex}
-        index={activeQuestionIndex}
-        onSelectAnswer={handleSelectAnswer}
-        onSkipAnswer={handleSkipAnswer}
-      />
-    </div>
-  );
-} */
-
-import { useCallback, useState } from "react";
-import QUESTIONS from "../questions";
-import Question from "./Question";
-import Summary from "./Summary";
-
-export default function Quiz() {
-  const [userAnswers, setUserAnswers] = useState([]); // To store user's answers
-  const [selectedAnswer, setSelectedAnswer] = useState(null); // To track the current selected answer
-  const [canProceed, setCanProceed] = useState(false); // Control enabling/disabling of the Next button
-
   const activeQuestionIndex = userAnswers.length;
-  const quizIsComplete = activeQuestionIndex === QUESTIONS.length;
+  const quizIsComplete = activeQuestionIndex === filteredQuestions.length;
 
-  const handleSelectAnswer = useCallback((answer) => {
-    setSelectedAnswer(answer); // Set selected answer when an answer is chosen
-    setCanProceed(true); // Enable the Next button
-  }, []);
-
-  const handleSkipAnswer = useCallback(() => {
-    handleSelectAnswer(null); // Skip by setting the selected answer to null
-    setCanProceed(true); // Enable the Next button
-  }, [handleSelectAnswer]);
-
-  const handleNextQuestion = () => {
-    setUserAnswers((prevUserAnswers) => [
-      ...prevUserAnswers,
-      selectedAnswer, // Add the selected answer to the answers array
-    ]);
-    setSelectedAnswer(null); // Reset the selected answer for the next question
-    setCanProceed(false); // Disable the Next button until the next answer is selected
+  const handleSelectAnswer = (answer) => {
+    setUserAnswers((prevUserAnswers) => [...prevUserAnswers, answer]);
   };
 
+  const handleSkipAnswer = () => handleSelectAnswer(null);
+
+  const handleStartQuiz = (name, category) => {
+    setFirstName(name);
+    setSelectedCategory(category);
+  };
+
+  if (!selectedCategory) {
+    return <FrontPage onStartQuiz={handleStartQuiz} />;
+  }
+
   if (quizIsComplete) {
-    return <Summary userAnswers={userAnswers} />;
+    return (
+      <Summary
+        firstName={firstName}
+        userAnswers={userAnswers}
+        questions={filteredQuestions}
+        onReset={() => {
+          setFirstName("");
+          setSelectedCategory("");
+          setUserAnswers([]);
+        }}
+      />
+    );
   }
 
   return (
@@ -81,15 +51,10 @@ export default function Quiz() {
       <Question
         key={activeQuestionIndex}
         index={activeQuestionIndex}
+        question={filteredQuestions[activeQuestionIndex]}
         onSelectAnswer={handleSelectAnswer}
         onSkipAnswer={handleSkipAnswer}
       />
-      <button
-        onClick={handleNextQuestion}
-        disabled={!canProceed} // Only enable Next button if an answer is selected
-      >
-        Next
-      </button>
     </div>
   );
 }

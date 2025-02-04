@@ -26,7 +26,7 @@ body {
   margin: 0;
   padding: 2rem;
   /* background: linear-gradient(180deg, #22182f 0%, #2c2437 100%); */
-  background-color: #1d0433;
+  background-color: #011268;
   background-image: url("https://scontent.fceb1-2.fna.fbcdn.net/v/t39.30808-6/429670031_792998469524269_1732756063371971356_n.png?stp=dst-jpg&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeGNO02oZP-lM0wesK5qK4tTawaSicG0QjhrBpKJwbRCOOXX9SARP86-inYp2Gf6gvYqBpJ6aaL7gDcOI266njs_&_nc_ohc=nEBXrK7QawoQ7kNvgFwGWfa&_nc_ht=scontent.fceb1-2.fna&oh=00_AYDPkl08L1dc9e9B2VkV5-jXmia6SZaRgKp0uZwsx5kwKQ&oe=6655399A");
   background-attachment: fixed;
   background-size: cover;
@@ -87,7 +87,7 @@ header h1 {
   min-height: 25rem;
   margin: auto;
   padding: 2rem;
-  background: linear-gradient(180deg, #003285 0%, #FFDA78 100%);
+  background: linear-gradient(180deg, white 0%, white 100%);
   border-radius: 8px;
   /* box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.6); */
   box-shadow: 1px 1px 8px 4px rgba(12, 5, 32, 0.6);
@@ -139,7 +139,7 @@ header h1 {
   font-size: 1.5rem;
   font-weight: normal;
   margin: 0.5rem 0 2.5rem 0;
-  color: #c1b2dd;
+  color: black;
 }
 
 #answers {
@@ -166,7 +166,7 @@ header h1 {
   border: none;
   border-radius: 24px;
   /* background: linear-gradient(180deg, #81f1fb 0%, #73d2f8 100%); */
-  background: #6cb7f5;
+  background: #FFC700;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -174,7 +174,7 @@ header h1 {
 .answer button:hover,
 .answer button:focus {
   /* background: linear-gradient(180deg, #bf48f6 0%, #9b50f2 100%); */
-  background: #9d5af5;
+  background: #6cb7f5;
   color: white;
   /* box-shadow: 0 0 4px 2px rgba(255, 200, 60, 0.8); */
 }
@@ -301,9 +301,11 @@ header h1 {
 
 #summary-stats {
   display: flex;
-  gap: 3rem;
-  width: 60%;
-  margin: 2rem auto;
+  justify-content: center; /* Center the stats horizontally */
+  align-items: center;     /* Center items vertically */
+  gap: 2rem;               /* Space between each stat */
+  margin: 2rem auto;       /* Center the section on the page */
+  width: fit-content;      /* Adjust to fit the content */
   padding-bottom: 2rem;
   border-bottom: 2px solid #594276;
 }
@@ -341,3 +343,135 @@ header h1 {
     transform: translateY(0);
   }
 }
+
+#feedback {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+#feedback h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+#feedback p {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+#front-page {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+#front-page h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+input,
+select {
+  width: 80%;
+  padding: 10px;
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 18px;
+  margin-top: 15px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+
+#admin-page {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#admin-page h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+#admin-page p {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 18px;
+  margin: 0 10px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+
+
+.score-design .stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 120px;
+}
+
+.score-design .stat p {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: black;
+}
+
+.category-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #007bff; /* Blue color */
+}
+
+
+
+

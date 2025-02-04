@@ -1,97 +1,134 @@
+import { useNavigate } from "react-router-dom";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 import quizCompleteImg from "../assets/quiz-complete.jpg";
-import QUESTIONS from "../questions.js";
+import Feedback from "./Feedback";
 
-export default function Summary({ userAnswers }) {
-  const skippedAnswers = userAnswers.filter((answer) => answer === null);
+export default function Summary({
+  firstName,
+  userAnswers,
+  questions,
+  category,
+  onReset,
+}) {
+  const navigate = useNavigate();
+  console.log("Category received in Summary:", category);
+
+  const skippedAnswers = userAnswers.filter((answer) => answer === null).length;
   const correctAnswers = userAnswers.filter(
-    (answer, index) => answer === QUESTIONS[index].answers[0]
-  );
-  const skippedAnswersShare = Math.round(
-    (skippedAnswers.length / userAnswers.length) * 100
-  );
-  const correctAnswersShare = Math.round(
-    (correctAnswers.length / userAnswers.length) * 100
-  );
-  const wrongAnswersShare = 100 - skippedAnswersShare - correctAnswersShare;
-  /*
-return (
+    (answer, index) => answer === questions[index].answers[0]
+  ).length;
+  const totalQuestions = questions.length;
+  const wrongAnswers = totalQuestions - skippedAnswers - correctAnswers;
+
+  const percentageCorrect = Math.round((correctAnswers / totalQuestions) * 100);
+  const percentageSkipped = Math.round((skippedAnswers / totalQuestions) * 100);
+  const percentageWrong = Math.round((wrongAnswers / totalQuestions) * 100);
+
+  const handleAdminClick = () => {
+    const passkey = prompt("Passkey:");
+    if (passkey === "Thisisadmin") {
+      navigate("/admin", {
+        state: {
+          firstName,
+          correctAnswers,
+          totalQuestions,
+          percentageCorrect,
+          category: category || "No Category Selected", // ✅ Ensure category is always passed
+        },
+      });
+    } else {
+      alert("Incorrect passkey! Access denied.");
+    }
+  };
+
+  return (
     <div id="summary">
-      <img src={quizCompleteImg} alt="Trophy icon" />
-      <h2>QUIZ COMPLETED!</h2>
-      <div id="summary-stats">
-        <p>
-          <span className="number">{skippedAnswersShare}%</span>
-          <span className="text">skipped</span>
-        </p>
-        <p>
-          <span className="number">{correctAnswersShare}%</span>
-          <span className="text">answered correctly</span>
-        </p>
-        <p>
-          <span className="number">{wrongAnswersShare}%</span>
-          <span className="text">answered incorrectly</span>
-        </p>
+      <img src={quizCompleteImg} alt="Quiz Complete" />
+      <h2>Well done, {firstName}!</h2>
+
+      {/* ✅ Display Selected Category Below Name */}
+      <h3>
+        Category:{" "}
+        <span className="category-text">
+          {category || "No Category Selected"}
+        </span>
+      </h3>
+
+      <h3>QUIZ COMPLETED!</h3>
+
+      {/* Updated Quiz Statistics with Circular Design */}
+      <div id="summary-stats" className="score-design">
+        <div className="stat">
+          <CircularProgressbar
+            value={percentageSkipped}
+            text={`${skippedAnswers} (${percentageSkipped}%)`}
+            styles={buildStyles({
+              pathColor: "#f5a623",
+              textColor: "black",
+              trailColor: "#e9ecef",
+              textSize: "12px",
+            })}
+          />
+          <p>Skipped</p>
+        </div>
+        <div className="stat">
+          <CircularProgressbar
+            value={percentageCorrect}
+            text={`${correctAnswers} (${percentageCorrect}%)`}
+            styles={buildStyles({
+              pathColor: "#28a745",
+              textColor: "black",
+              trailColor: "#e9ecef",
+              textSize: "12px",
+            })}
+          />
+          <p>Correct</p>
+        </div>
+        <div className="stat">
+          <CircularProgressbar
+            value={percentageWrong}
+            text={`${wrongAnswers} (${percentageWrong}%)`}
+            styles={buildStyles({
+              pathColor: "#dc3545",
+              textColor: "black",
+              trailColor: "#e9ecef",
+              textSize: "12px",
+            })}
+          />
+          <p>Incorrect</p>
+        </div>
       </div>
+
+      {/* Display Q&A Summary */}
       <ol>
         {userAnswers.map((answer, index) => {
           let cssClass = "user-answer";
-
-          if (answer === null) {
-            cssClass += " skipped";
-          } else if (answer === QUESTIONS[index].answers[0]) {
+          if (answer === null) cssClass += " skipped";
+          else if (answer === questions[index].answers[0])
             cssClass += " correct";
-          } else {
-            cssClass += " wrong";
-          }
+          else cssClass += " wrong";
 
           return (
             <li key={index}>
               <h3>{index + 1}</h3>
-              <p className="question">{QUESTIONS[index].text}</p>
+              <p className="question">{questions[index].text}</p>
               <p className={cssClass}>{answer ?? "Skipped"}</p>
             </li>
           );
         })}
       </ol>
-    </div>
-  );
- */
-  return (
-    <div id="summary">
-      <img src={quizCompleteImg} alt="Trophy icon" />
-      <h2>QUIZ COMPLETED!</h2>
-      <div id="summary-stats">
-        <p>
-          <span className="number">percent%</span>
-          <span className="text">skipped</span>
-        </p>
-        <p>
-          <span className="number">percent%</span>
-          <span className="text">answered correctly</span>
-        </p>
-        <p>
-          <span className="number">percent%</span>
-          <span className="text">answered incorrectly</span>
-        </p>
+
+      {/* Feedback Component */}
+      <Feedback
+        correctAnswersCount={correctAnswers}
+        totalQuestions={totalQuestions}
+      />
+
+      <div className="button-group">
+        <button onClick={onReset}>Restart</button>
+        <button onClick={handleAdminClick}>ADMIN</button>
       </div>
-      <ol>
-        <li>
-          <h4>1</h4>
-          <h4>Quiz summary of Question and Answers</h4>
-        </li>
-        <li>
-          <h4>2</h4>
-          <h4>Quiz summary of Question and Answers</h4>
-        </li>
-        <li>
-          <h4>3</h4>
-          <h4>Quiz summary of Question and Answers</h4>
-        </li>
-        <hr></hr>
-        <h1>
-          Add-ons: Suggested learning material depending on the assessment score
-        </h1>
-      </ol>
     </div>
   );
 }

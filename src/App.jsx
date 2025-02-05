@@ -15,8 +15,18 @@ function SummaryPageWrapper() {
   const navigate = useNavigate();
   const { firstName, userAnswers, questions, category } = location.state || {};
 
-  if (!firstName || !userAnswers || !questions) {
-    navigate("/");
+  console.log("SummaryPageWrapper received:", location.state); // ✅ Debugging
+
+  // ✅ Fix: Ensure valid data before redirecting
+  if (
+    !firstName ||
+    !Array.isArray(userAnswers) ||
+    userAnswers.length === 0 ||
+    !Array.isArray(questions) ||
+    questions.length === 0
+  ) {
+    console.error("🚨 Invalid data in SummaryPageWrapper! Redirecting...");
+    navigate("/", { replace: true });
     return null;
   }
 

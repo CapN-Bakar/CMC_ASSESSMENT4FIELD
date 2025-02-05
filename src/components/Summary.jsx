@@ -12,8 +12,14 @@ export default function Summary({
   onReset,
 }) {
   const navigate = useNavigate();
-  console.log("Category received in Summary:", category);
+  console.log("✅ Summary.jsx props received:", {
+    firstName,
+    userAnswers,
+    questions,
+    category,
+  });
 
+  // Calculate statistics
   const skippedAnswers = userAnswers.filter((answer) => answer === null).length;
   const correctAnswers = userAnswers.filter(
     (answer, index) => answer === questions[index].answers[0]
@@ -25,6 +31,7 @@ export default function Summary({
   const percentageSkipped = Math.round((skippedAnswers / totalQuestions) * 100);
   const percentageWrong = Math.round((wrongAnswers / totalQuestions) * 100);
 
+  // Admin Access with Passkey
   const handleAdminClick = () => {
     const passkey = prompt("Passkey:");
     if (passkey === "Thisisadmin") {

@@ -1,13 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import FrontPage from "./FrontPage";
 import QUESTIONS from "../questions";
 import Question from "./Question";
-import Summary from "./Summary";
 
 export default function Quiz() {
   const [firstName, setFirstName] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [userAnswers, setUserAnswers] = useState([]);
+  const navigate = useNavigate();
 
   const filteredQuestions = QUESTIONS.filter(
     (q) => q.category === selectedCategory
@@ -17,7 +18,32 @@ export default function Quiz() {
   const quizIsComplete = activeQuestionIndex === filteredQuestions.length;
 
   const handleSelectAnswer = (answer) => {
-    setUserAnswers((prevUserAnswers) => [...prevUserAnswers, answer]);
+    setUserAnswers((prevUserAnswers) => {
+      const updatedAnswers = [...prevUserAnswers, answer];
+
+      if (updatedAnswers.length === filteredQuestions.length) {
+        console.log("🚀 Navigating to Summary with:", {
+          firstName,
+          selectedCategory,
+          userAnswers: updatedAnswers, // ✅ Confirm that this is NOT empty
+          questions: filteredQuestions, // ✅ Ensure this is NOT empty
+        });
+
+        setTimeout(() => {
+          // ✅ Ensures state updates before navigation
+          navigate("/summary", {
+            state: {
+              firstName,
+              category: selectedCategory, // ✅ Ensure category is passed
+              userAnswers: updatedAnswers,
+              questions: filteredQuestions,
+            },
+          });
+        }, 100); // Small delay to allow state to update
+      }
+
+      return updatedAnswers;
+    });
   };
 
   const handleSkipAnswer = () => handleSelectAnswer(null);
@@ -31,30 +57,17 @@ export default function Quiz() {
     return <FrontPage onStartQuiz={handleStartQuiz} />;
   }
 
-  if (quizIsComplete) {
-    return (
-      <Summary
-        firstName={firstName}
-        userAnswers={userAnswers}
-        questions={filteredQuestions}
-        onReset={() => {
-          setFirstName("");
-          setSelectedCategory("");
-          setUserAnswers([]);
-        }}
-      />
-    );
-  }
-
   return (
     <div id="quiz">
-      <Question
-        key={activeQuestionIndex}
-        index={activeQuestionIndex}
-        question={filteredQuestions[activeQuestionIndex]}
-        onSelectAnswer={handleSelectAnswer}
-        onSkipAnswer={handleSkipAnswer}
-      />
+      {!quizIsComplete && (
+        <Question
+          key={activeQuestionIndex}
+          index={activeQuestionIndex}
+          question={filteredQuestions[activeQuestionIndex]}
+          onSelectAnswer={handleSelectAnswer}
+          onSkipAnswer={handleSkipAnswer}
+        />
+      )}
     </div>
   );
 }

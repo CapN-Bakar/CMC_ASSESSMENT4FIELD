@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import quizCompleteImg from "../assets/quiz-complete.jpg";
-import Feedback from "./Feedback";
+import FocusAreas from "./FocusAreas"; // ✅ Import the new component
 
 export default function Summary({
   firstName,
@@ -12,14 +12,7 @@ export default function Summary({
   onReset,
 }) {
   const navigate = useNavigate();
-  console.log("✅ Summary.jsx props received:", {
-    firstName,
-    userAnswers,
-    questions,
-    category,
-  });
 
-  // Calculate statistics
   const skippedAnswers = userAnswers.filter((answer) => answer === null).length;
   const correctAnswers = userAnswers.filter(
     (answer, index) => answer === questions[index].answers[0]
@@ -31,7 +24,6 @@ export default function Summary({
   const percentageSkipped = Math.round((skippedAnswers / totalQuestions) * 100);
   const percentageWrong = Math.round((wrongAnswers / totalQuestions) * 100);
 
-  // Admin Access with Passkey
   const handleAdminClick = () => {
     const passkey = prompt("Passkey:");
     if (passkey === "Thisisadmin") {
@@ -41,7 +33,7 @@ export default function Summary({
           correctAnswers,
           totalQuestions,
           percentageCorrect,
-          category: category || "No Category Selected", // ✅ Ensure category is always passed
+          category: category || "No Category Selected",
         },
       });
     } else {
@@ -54,7 +46,6 @@ export default function Summary({
       <img src={quizCompleteImg} alt="Quiz Complete" />
       <h2>Well done, {firstName}!</h2>
 
-      {/* ✅ Display Selected Category Below Name */}
       <h3>
         Category:{" "}
         <span className="category-text">
@@ -107,7 +98,7 @@ export default function Summary({
         </div>
       </div>
 
-      {/* Display Q&A Summary */}
+      {/* ✅ Display Q&A Summary */}
       <ol>
         {userAnswers.map((answer, index) => {
           let cssClass = "user-answer";
@@ -126,11 +117,10 @@ export default function Summary({
         })}
       </ol>
 
-      {/* Feedback Component */}
-      <Feedback
-        correctAnswersCount={correctAnswers}
-        totalQuestions={totalQuestions}
-      />
+      {/* ✅ Show Focus Areas ONLY if the category is Web Development */}
+      {category === "Web Development" && (
+        <FocusAreas percentage={percentageCorrect} />
+      )}
 
       <div className="button-group">
         <button onClick={onReset}>Restart</button>

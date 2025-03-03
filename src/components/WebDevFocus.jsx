@@ -1,4 +1,4 @@
-export default function FocusAreas({ percentage }) {
+export default function WebDevFocus({ percentage }) {
   let focusPoints = [];
 
   if (percentage <= 37.5) {

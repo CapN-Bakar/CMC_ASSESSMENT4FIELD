@@ -1,6 +1,9 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import WebDevResources from "./WebDevResources"; // ✅ Import WebDevResources
+import WebDevResources from "./WebDevResources"; // ✅ Web Dev Learning Materials
+import MobileDevResources from "./MobileDevResources"; // ✅ Mobile Dev Learning Materials
+import NetworkingAdminResources from "./NetworkingAdminResources"; // ✅ Networking Learning Materials
+import SWEPAdminResources from "./SWEPAdminResources"; // ✅ SWEP Learning Materials
 
 export default function Admin() {
   const navigate = useNavigate();
@@ -77,19 +80,28 @@ export default function Admin() {
     <div id="admin-page">
       <h1>{firstName}'s Result</h1>
       <p>
-        Category: <strong>{category}</strong>
+        Category: <strong>{category} </strong>
       </p>
       <p>
         Correct Answers: {correctAnswers} / {totalQuestions}
       </p>
       <p>Percentage: {percentageCorrect}%</p>
 
-      {/* ✅ Show Web Development Learning Resources ONLY if the category is Web Development */}
+      {/* ✅ Display Learning Resources Based on Category */}
       {category === "Web Development" && (
         <WebDevResources percentage={percentageCorrect} />
       )}
+      {category === "Mobile Development" && (
+        <MobileDevResources percentage={percentageCorrect} />
+      )}
+      {category === "Networking" && (
+        <NetworkingAdminResources percentage={percentageCorrect} />
+      )}
+      {category === "Software Engineering Principles" && (
+        <SWEPAdminResources percentage={percentageCorrect} />
+      )}
 
-      {/* Export Button */}
+      {/* Add the Export Button */}
       <button onClick={handleExport}>EXPORT</button>
     </div>
   );

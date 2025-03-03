@@ -2,7 +2,10 @@ import { useNavigate } from "react-router-dom";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import quizCompleteImg from "../assets/quiz-complete.jpg";
-import FocusAreas from "./FocusAreas"; // ✅ Import the new component
+import WebDevFocus from "./WebDevFocus"; // ✅ Import Web Dev Focus Areas
+import MobileDevFocus from "./MobileDevFocus"; // ✅ Import Mobile Dev Focus Areas
+import NetworkingFocus from "./NetworkingFocus";
+import SWEPFocus from "./SWEPFocus";
 
 export default function Summary({
   firstName,
@@ -12,6 +15,7 @@ export default function Summary({
   onReset,
 }) {
   const navigate = useNavigate();
+  console.log("Category received in Summary:", category);
 
   const skippedAnswers = userAnswers.filter((answer) => answer === null).length;
   const correctAnswers = userAnswers.filter(
@@ -46,6 +50,7 @@ export default function Summary({
       <img src={quizCompleteImg} alt="Quiz Complete" />
       <h2>Well done, {firstName}!</h2>
 
+      {/* ✅ Display Selected Category Below Name */}
       <h3>
         Category:{" "}
         <span className="category-text">
@@ -117,9 +122,18 @@ export default function Summary({
         })}
       </ol>
 
-      {/* ✅ Show Focus Areas ONLY if the category is Web Development */}
+      {/* ✅ Display Focus Areas Based on Category */}
       {category === "Web Development" && (
-        <FocusAreas percentage={percentageCorrect} />
+        <WebDevFocus percentage={percentageCorrect} />
+      )}
+      {category === "Mobile Development" && (
+        <MobileDevFocus percentage={percentageCorrect} />
+      )}
+      {category === "Networking" && (
+        <NetworkingFocus percentage={percentageCorrect} />
+      )}
+      {category === "Software Engineering Principles" && (
+        <SWEPFocus percentage={percentageCorrect} />
       )}
 
       <div className="button-group">

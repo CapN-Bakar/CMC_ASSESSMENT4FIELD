@@ -1,111 +1,111 @@
-export default function WebDevResources({ percentage }) {
-  let resources = {
-    learningMaterials: [],
-    miniProject: "",
-  };
+export default function WebDevResources({
+  userAnswers = [],
+  questions = [],
+  percentage,
+}) {
+  console.log("📌 WebDevResources Received Data:", {
+    userAnswers,
+    questions,
+    percentage,
+  });
 
+  // Ensure questions exist before running forEach
+  if (!questions.length || !userAnswers.length) {
+    return <p>❌ Error: Missing quiz data.</p>;
+  }
+
+  let learningMaterials = new Set();
+  let miniProject = "";
+
+  questions.forEach((question, index) => {
+    if (userAnswers[index] !== question.answers[0]) {
+      switch (question.id) {
+        case "wd1":
+          learningMaterials.add({
+            name: "React Lifecycle Methods - Official Docs",
+            url: "https://react.dev/reference/react/Component#componentdidmount",
+          });
+          break;
+        case "wd2":
+          learningMaterials.add({
+            name: "Mastering React Hooks",
+            url: "https://www.freecodecamp.org/news/react-hooks-tutorial/",
+          });
+          break;
+        case "wd3":
+          learningMaterials.add({
+            name: "State Management in React (useState vs Redux vs Context API)",
+            url: "https://www.smashingmagazine.com/2020/06/state-management-react/",
+          });
+          break;
+        case "wd4":
+          learningMaterials.add({
+            name: "Understanding the Virtual DOM",
+            url: "https://react.dev/learn/render-and-commit",
+          });
+          break;
+        case "wd5":
+          learningMaterials.add({
+            name: "React List Keys & Best Practices",
+            url: "https://beta.reactjs.org/learn/rendering-lists",
+          });
+          break;
+        case "wd6":
+          learningMaterials.add({
+            name: "Props vs State in React",
+            url: "https://react.dev/learn/passing-props-to-a-component",
+          });
+          break;
+        case "wd7":
+          learningMaterials.add({
+            name: "Setting up a React Project - CRA & Vite",
+            url: "https://www.freecodecamp.org/news/how-to-set-up-a-react-project-with-vite/",
+          });
+          break;
+        case "wd8":
+          learningMaterials.add({
+            name: "React Context API vs Redux",
+            url: "https://daveceddia.com/context-api-vs-redux/",
+          });
+          break;
+        default:
+          break;
+      }
+    }
+  });
+
+  // Set a mini-project based on performance
   if (percentage <= 37.5) {
-    // Beginner Level (0-3 correct)
-    resources.learningMaterials = [
-      {
-        title: "W3Schools - React Basics",
-        link: "https://www.w3schools.com/react/",
-      },
-      {
-        title: "React Official Docs - Getting Started",
-        link: "https://react.dev/learn",
-      },
-      {
-        title: "FreeCodeCamp - React Course",
-        link: "https://www.freecodecamp.org/news/learn-react-in-90-minutes/",
-      },
-      {
-        title: "Traversy Media - React Crash Course (YouTube)",
-        link: "https://youtu.be/w7ejDZ8SWv8",
-      },
-    ];
-    resources.miniProject =
-      "Build a simple static webpage using React components.";
+    miniProject = "💡 Build a simple static webpage using React components.";
   } else if (percentage <= 62.5) {
-    // Intermediate Level (4-5 correct)
-    resources.learningMaterials = [
-      {
-        title: "React Docs - State & Lifecycle",
-        link: "https://react.dev/reference/react/Component#state-and-lifecycle",
-      },
-      {
-        title: "React Beta Docs - Hooks Overview",
-        link: "https://react.dev/reference/react/hooks",
-      },
-      {
-        title: "Scrimba - Learn React for Free",
-        link: "https://scrimba.com/learn/learnreact",
-      },
-      {
-        title: "JavaScript.info - React Intro",
-        link: "https://javascript.info/react",
-      },
-    ];
-    resources.miniProject =
-      "Build a Todo App with local state and lifecycle methods.";
+    miniProject = "💡 Build a Todo App with local state and lifecycle methods.";
   } else if (percentage <= 87.5) {
-    // Advanced Intermediate (6-7 correct)
-    resources.learningMaterials = [
-      {
-        title: "React Docs - Performance Optimization",
-        link: "https://react.dev/learn/optimizing-performance",
-      },
-      {
-        title: "Kent C. Dodds - Advanced React Patterns",
-        link: "https://epicreact.dev/",
-      },
-      {
-        title: "Redux Toolkit - Modern State Management",
-        link: "https://redux-toolkit.js.org/",
-      },
-      {
-        title: "React Query - Managing Server State",
-        link: "https://tanstack.com/query/latest/docs/react/overview",
-      },
-    ];
-    resources.miniProject =
-      "Create a Weather App using an API and implement caching with React Query.";
+    miniProject =
+      "💡 Create a Weather App using an API and implement caching with React Query.";
   } else {
-    // Expert Level (8 correct)
-    resources.learningMaterials = [
-      { title: "React Official Docs - Deep Dive", link: "https://react.dev/" },
-      {
-        title: "React Query - Managing Server State",
-        link: "https://tanstack.com/query/latest/docs/react/overview",
-      },
-      {
-        title: "Next.js - Server Components & SSR",
-        link: "https://nextjs.org/docs/getting-started",
-      },
-      {
-        title: "React Testing Library",
-        link: "https://testing-library.com/docs/react-testing-library/intro/",
-      },
-    ];
-    resources.miniProject =
-      "Develop a Full-Stack Social Media App with authentication, real-time updates, and server-side rendering.";
+    miniProject =
+      "💡 Develop a Full-Stack Social Media App with authentication, real-time updates, and server-side rendering.";
   }
 
   return (
-    <div id="web-dev-resources">
+    <div id="webdev-admin-resources">
       <h3>📚 Recommended Learning Materials</h3>
-      <ul>
-        {resources.learningMaterials.map((item, index) => (
-          <li key={index}>
-            <a href={item.link} target="_blank" rel="noopener noreferrer">
-              {item.title}
-            </a>
-          </li>
-        ))}
-      </ul>
+      {learningMaterials.size > 0 ? (
+        <ul>
+          {[...learningMaterials].map((material, index) => (
+            <li key={index}>
+              <a href={material.url} target="_blank" rel="noopener noreferrer">
+                {material.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>✅ The student has demonstrated proficiency in all areas.</p>
+      )}
 
-      <h3>💡 Recommended Mini-Project</h3>
-      <p>{resources.miniProject}</p>
+      <h3>💡 Mini-Project</h3>
+      <p>{miniProject}</p>
     </div>
   );
 }

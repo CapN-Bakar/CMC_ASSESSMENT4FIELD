@@ -1,42 +1,38 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import WebDevResources from "./WebDevResources"; // ✅ Web Dev Learning Materials
-import MobileDevResources from "./MobileDevResources"; // ✅ Mobile Dev Learning Materials
-import NetworkingAdminResources from "./NetworkingAdminResources"; // ✅ Networking Learning Materials
-import SWEPAdminResources from "./SWEPAdminResources"; // ✅ SWEP Learning Materials
+import WebDevResources from "./WebDevResources";
+import MobileDevResources from "./MobileDevResources";
+import NetworkingAdminResources from "./NetworkingAdminResources";
+import SWEPAdminResources from "./SWEPAdminResources";
 
 export default function Admin() {
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Extract state
   const state = location.state;
 
-  console.log("State received in admin:", state); // Debugging
+  console.log("✅ Admin received data:", state); // Debugging
 
-  useEffect(() => {
-    if (
-      !state ||
-      !state.firstName ||
-      state.correctAnswers === undefined ||
-      state.totalQuestions === undefined
-    ) {
-      console.log("Redirecting to home due to missing state.");
-      navigate("/", { replace: true });
-    }
-  }, [state, navigate]);
-
-  if (!state) {
-    return <p>Redirecting...</p>;
+  if (
+    !state ||
+    !state.firstName ||
+    !state.category ||
+    state.correctAnswers === undefined ||
+    state.totalQuestions === undefined ||
+    !Array.isArray(state.userAnswers) ||
+    !Array.isArray(state.questions) ||
+    state.userAnswers.length === 0 ||
+    state.questions.length === 0
+  ) {
+    return <p>❌ Error: Missing quiz data.</p>;
   }
 
-  // Destructure state (use optional chaining to avoid errors)
   const {
     firstName,
     correctAnswers,
     totalQuestions,
     percentageCorrect,
     category,
+    userAnswers,
+    questions,
   } = state;
 
   // Function to export data as CSV
@@ -87,21 +83,37 @@ export default function Admin() {
       </p>
       <p>Percentage: {percentageCorrect}%</p>
 
-      {/* ✅ Display Learning Resources Based on Category */}
+      {/* ✅ Pass the full quiz data to the learning resources */}
       {category === "Web Development" && (
-        <WebDevResources percentage={percentageCorrect} />
+        <WebDevResources
+          userAnswers={userAnswers}
+          questions={questions}
+          percentage={percentageCorrect}
+        />
       )}
       {category === "Mobile Development" && (
-        <MobileDevResources percentage={percentageCorrect} />
+        <MobileDevResources
+          userAnswers={userAnswers}
+          questions={questions}
+          percentage={percentageCorrect}
+        />
       )}
       {category === "Networking" && (
-        <NetworkingAdminResources percentage={percentageCorrect} />
+        <NetworkingAdminResources
+          userAnswers={userAnswers}
+          questions={questions}
+          percentage={percentageCorrect}
+        />
       )}
       {category === "Software Engineering Principles" && (
-        <SWEPAdminResources percentage={percentageCorrect} />
+        <SWEPAdminResources
+          userAnswers={userAnswers}
+          questions={questions}
+          percentage={percentageCorrect}
+        />
       )}
 
-      {/* Add the Export Button */}
+      {/* ✅ Add Export Button */}
       <button onClick={handleExport}>EXPORT</button>
     </div>
   );

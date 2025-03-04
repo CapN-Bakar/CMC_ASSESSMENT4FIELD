@@ -15,9 +15,9 @@ function SummaryPageWrapper() {
   const navigate = useNavigate();
   const { firstName, userAnswers, questions, category } = location.state || {};
 
-  console.log("SummaryPageWrapper received:", location.state); // ✅ Debugging
+  console.log("✅ SummaryPageWrapper received:", location.state);
 
-  // ✅ Fix: Ensure valid data before redirecting
+  // ✅ Fix: Ensure valid data before rendering Summary
   if (
     !firstName ||
     !Array.isArray(userAnswers) ||
@@ -46,21 +46,34 @@ function AdminPageWrapper() {
   const navigate = useNavigate();
   const state = location.state;
 
+  console.log("✅ AdminPageWrapper received:", state); // Debugging
+
+  // ✅ Prevent missing state errors
   if (
     !state ||
     !state.firstName ||
+    !state.category ||
     state.correctAnswers === undefined ||
-    state.totalQuestions === undefined
+    state.totalQuestions === undefined ||
+    !Array.isArray(state.userAnswers) ||
+    !Array.isArray(state.questions) ||
+    state.userAnswers.length === 0 ||
+    state.questions.length === 0
   ) {
-    navigate("/");
+    console.error("🚨 Missing quiz data in AdminPageWrapper! Redirecting...");
+    navigate("/", { replace: true });
     return null;
   }
 
   return (
     <Admin
       firstName={state.firstName}
-      correctAnswersCount={state.correctAnswers}
+      category={state.category}
+      correctAnswers={state.correctAnswers}
       totalQuestions={state.totalQuestions}
+      percentageCorrect={state.percentageCorrect}
+      userAnswers={state.userAnswers}
+      questions={state.questions}
     />
   );
 }

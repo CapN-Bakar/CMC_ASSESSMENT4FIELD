@@ -467,10 +467,77 @@ button:hover {
 }
 
 .category-text {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  color: #007bff; /* Blue color */
+  color: #007bff;
 }
+
+h4 {
+  font-size: 1.3rem; /* Adjust as needed */
+  font-weight: bold;
+  color: #2c3e50; /* Dark blue-gray for readability */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  padding: 5px 0;
+}
+
+h4 .category-text {
+  color: #FFB433; /* Red to highlight category text */
+  font-weight: bold;
+}
+
+
+/* ✅ Ensure header and category section is separated */
+.summary-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.summary-header h3 {
+  font-size: 1.5rem;
+  color: #3a2353;
+}
+
+/* ✅ Ensures "Areas to Focus On" is separated properly */
+.focus-areas {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.focus-areas h3 {
+  font-size: 1.5rem;
+  color: #3a2353;
+  margin-bottom: 1rem;
+}
+
+/* ✅ Ensures "Your Answers" section is styled properly */
+.qa-summary {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.qa-summary h3 {
+  font-size: 1.5rem;
+  color: #3a2353;
+  margin-bottom: 1rem;
+}
+
+.focus-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 0;
+}
+
+.focus-item {
+  padding: 10px;
+  background: #f8f9fa;
+  border-left: 4px solid #007bff;
+  border-right: 4px solid #007bff;
+  font-weight: bold;
+}
+
 
 
 

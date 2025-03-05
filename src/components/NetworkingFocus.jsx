@@ -2,7 +2,6 @@ export default function NetworkingFocus({ percentage }) {
   let focusAreas = [];
 
   if (percentage <= 37.5) {
-    // Beginner Level (0-3 correct)
     focusAreas = [
       "Understanding basic networking concepts (IP, DNS, HTTP, HTTPS)",
       "Learning how firewalls, VPNs, and proxies work",
@@ -10,7 +9,6 @@ export default function NetworkingFocus({ percentage }) {
       "Familiarizing with different network layers (OSI & TCP/IP model)",
     ];
   } else if (percentage <= 62.5) {
-    // Intermediate Level (4-5 correct)
     focusAreas = [
       "Securing API communication using HTTPS and TLS/SSL",
       "Configuring and managing firewalls effectively",
@@ -18,7 +16,6 @@ export default function NetworkingFocus({ percentage }) {
       "Understanding network traffic analysis and packet filtering",
     ];
   } else if (percentage <= 87.5) {
-    // Advanced Intermediate (6-7 correct)
     focusAreas = [
       "Optimizing Content Delivery Networks (CDN) for performance",
       "Implementing secure authentication mechanisms (OAuth, JWT, SSO)",
@@ -26,7 +23,6 @@ export default function NetworkingFocus({ percentage }) {
       "Understanding network security risks (DDoS, MITM attacks) and mitigation strategies",
     ];
   } else {
-    // Expert Level (8 correct)
     focusAreas = [
       "Designing scalable and secure enterprise networks",
       "Implementing load balancing and network redundancy strategies",
@@ -37,12 +33,14 @@ export default function NetworkingFocus({ percentage }) {
 
   return (
     <div id="networking-focus">
-      <h3>🎯 Areas to Focus On</h3>
-      <ul>
+      <h2>🎯 Areas to Focus On</h2>
+      <div className="focus-list">
         {focusAreas.map((area, index) => (
-          <li key={index}>{area}</li>
+          <div key={index} className="focus-item">
+            {area}
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

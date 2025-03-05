@@ -20,7 +20,6 @@ export default function Summary({
   console.log("✅ Summary received userAnswers:", userAnswers);
   console.log("✅ Summary received questions:", questions);
 
-  // ✅ Prevents rendering if data is missing
   if (
     !firstName ||
     !category ||
@@ -50,8 +49,8 @@ export default function Summary({
           correctAnswers,
           totalQuestions,
           percentageCorrect,
-          userAnswers, // ✅ Ensure userAnswers are passed
-          questions, // ✅ Ensure questions are passed
+          userAnswers,
+          questions,
         },
       });
     } else {
@@ -64,14 +63,13 @@ export default function Summary({
       <img src={quizCompleteImg} alt="Quiz Complete" />
       <h2>Well done, {firstName}!</h2>
 
-      <h3>
-        Category:{" "}
-        <span className="category-text">
-          {category || "No Category Selected"}
-        </span>
-      </h3>
-
-      <h3>QUIZ COMPLETED!</h3>
+      {/* ✅ Category and Quiz Completed Message - OUTSIDE of the list */}
+      <div className="summary-header">
+        <h4>
+          Category: <span className="category-text">{category}</span>
+        </h4>
+        <h4>QUIZ COMPLETED!</h4>
+      </div>
 
       {/* ✅ Updated Quiz Statistics with Circular Design */}
       <div id="summary-stats" className="score-design">
@@ -101,38 +99,46 @@ export default function Summary({
         </div>
       </div>
 
-      {/* ✅ Display Q&A Summary */}
-      <ol>
-        {userAnswers.map((answer, index) => {
-          let cssClass = "user-answer";
-          if (answer === null) cssClass += " skipped";
-          else if (answer === questions[index]?.answers[0])
-            cssClass += " correct";
-          else cssClass += " wrong";
+      {/* ✅ Q&A Summary - Wrapped in a separate div */}
+      <div className="qa-summary">
+        <h4>📝 Your Answers</h4>
+        <ol>
+          {userAnswers.map((answer, index) => {
+            let cssClass = "user-answer";
+            if (answer === null) cssClass += " skipped";
+            else if (answer === questions[index]?.answers[0])
+              cssClass += " correct";
+            else cssClass += " wrong";
 
-          return (
-            <li key={index}>
-              <h3>{index + 1}</h3>
-              <p className="question">{questions[index]?.text}</p>
-              <p className={cssClass}>{answer ?? "Skipped"}</p>
-            </li>
-          );
-        })}
-      </ol>
+            return (
+              <li key={index}>
+                <h3>{index + 1}</h3>
+                <p className="question">{questions[index]?.text}</p>
+                <p className={cssClass}>{answer ?? "Skipped"}</p>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
 
-      {/* ✅ Display Focus Areas Based on Category */}
-      {category === "Web Development" && (
-        <WebDevFocus userAnswers={userAnswers} questions={questions} />
-      )}
-      {category === "Mobile Development" && (
-        <MobileDevFocus userAnswers={userAnswers} questions={questions} />
-      )}
-      {category === "Networking" && (
-        <NetworkingFocus userAnswers={userAnswers} questions={questions} />
-      )}
-      {category === "Software Engineering Principles" && (
-        <SWEPFocus userAnswers={userAnswers} questions={questions} />
-      )}
+      {/* ✅ Areas to Focus On - OUTSIDE of the list and using div instead of ul/li */}
+      <div className="focus-areas">
+        <div id="webdev-focus-areas">
+          {/* Replacing <ul><li> with <div> elements */}
+          {category === "Web Development" && (
+            <WebDevFocus userAnswers={userAnswers} questions={questions} />
+          )}
+          {category === "Mobile Development" && (
+            <MobileDevFocus userAnswers={userAnswers} questions={questions} />
+          )}
+          {category === "Networking" && (
+            <NetworkingFocus userAnswers={userAnswers} questions={questions} />
+          )}
+          {category === "Software Engineering Principles" && (
+            <SWEPFocus userAnswers={userAnswers} questions={questions} />
+          )}
+        </div>
+      </div>
 
       <div className="button-group">
         <button onClick={onReset}>Restart</button>

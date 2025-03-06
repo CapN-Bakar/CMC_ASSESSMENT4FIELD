@@ -88,18 +88,18 @@ export default function WebDevResources({
   }
 
   return (
-    <div id="webdev-admin-resources">
+    <div id="resources-container">
       <h3>📚 Recommended Learning Materials</h3>
       {learningMaterials.size > 0 ? (
-        <ul>
+        <div className="resource-list">
           {[...learningMaterials].map((material, index) => (
-            <li key={index}>
+            <div key={index} className="resource-item">
               <a href={material.url} target="_blank" rel="noopener noreferrer">
                 {material.name}
               </a>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       ) : (
         <p>✅ The student has demonstrated proficiency in all areas.</p>
       )}

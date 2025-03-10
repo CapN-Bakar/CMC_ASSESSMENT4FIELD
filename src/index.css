@@ -26,8 +26,7 @@ body {
   margin: 0;
   padding: 2rem;
   /* background: linear-gradient(180deg, #22182f 0%, #2c2437 100%); */
-  background-color: #011268;
-  background-image: url("https://scontent.fceb1-2.fna.fbcdn.net/v/t39.30808-6/429670031_792998469524269_1732756063371971356_n.png?stp=dst-jpg&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeGNO02oZP-lM0wesK5qK4tTawaSicG0QjhrBpKJwbRCOOXX9SARP86-inYp2Gf6gvYqBpJ6aaL7gDcOI266njs_&_nc_ohc=nEBXrK7QawoQ7kNvgFwGWfa&_nc_ht=scontent.fceb1-2.fna&oh=00_AYDPkl08L1dc9e9B2VkV5-jXmia6SZaRgKp0uZwsx5kwKQ&oe=6655399A");
+  background-image: url("./assets/lion.jpg");
   background-attachment: fixed;
   background-size: cover;
   background-position: center;

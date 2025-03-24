@@ -7,6 +7,7 @@ import Question from "./Question";
 export default function Quiz() {
   const [firstName, setFirstName] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedMode, setSelectedMode] = useState(""); // ✅ Added Mode of Assessment
   const [userAnswers, setUserAnswers] = useState([]);
   const navigate = useNavigate();
 
@@ -22,24 +23,27 @@ export default function Quiz() {
       const updatedAnswers = [...prevUserAnswers, answer];
 
       if (updatedAnswers.length === filteredQuestions.length) {
+        const modeToPass = selectedMode; // ✅ Store mode in a variable
+
         console.log("🚀 Navigating to Summary with:", {
           firstName,
           selectedCategory,
-          userAnswers: updatedAnswers, // ✅ Confirm that this is NOT empty
-          questions: filteredQuestions, // ✅ Ensure this is NOT empty
+          mode: modeToPass, // ✅ Mode should be correctly stored
+          userAnswers: updatedAnswers,
+          questions: filteredQuestions,
         });
 
         setTimeout(() => {
-          // ✅ Ensures state updates before navigation
           navigate("/summary", {
             state: {
               firstName,
-              category: selectedCategory, // ✅ Ensure category is passed
+              mode: modeToPass, // ✅ Pass stored mode
+              category: selectedCategory,
               userAnswers: updatedAnswers,
               questions: filteredQuestions,
             },
           });
-        }, 100); // Small delay to allow state to update
+        }, 100);
       }
 
       return updatedAnswers;
@@ -48,9 +52,10 @@ export default function Quiz() {
 
   const handleSkipAnswer = () => handleSelectAnswer(null);
 
-  const handleStartQuiz = (name, category) => {
+  const handleStartQuiz = (name, category, mode) => {
     setFirstName(name);
     setSelectedCategory(category);
+    setSelectedMode(mode); // ✅ Store Mode of Assessment
   };
 
   if (!selectedCategory) {

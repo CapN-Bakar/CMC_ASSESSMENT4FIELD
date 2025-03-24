@@ -1,3 +1,5 @@
+import { useState, useRef } from "react";
+import html2canvas from "html2canvas";
 import { useNavigate } from "react-router-dom";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
@@ -12,19 +14,24 @@ export default function Summary({
   userAnswers = [],
   questions = [],
   category,
+  mode,
   onReset,
 }) {
   const navigate = useNavigate();
+  const focusRef = useRef(null);
+  const [snapshot, setSnapshot] = useState(null);
 
   console.log("✅ Category received in Summary:", category);
   console.log("✅ Summary received userAnswers:", userAnswers);
   console.log("✅ Summary received questions:", questions);
+  console.log("🛠 Mode received in Summary:", mode);
 
   if (
     !firstName ||
     !category ||
     userAnswers.length === 0 ||
-    questions.length === 0
+    questions.length === 0 ||
+    !mode
   ) {
     return <p>❌ Error: Missing quiz data.</p>;
   }
@@ -46,6 +53,7 @@ export default function Summary({
         state: {
           firstName,
           category: category || "No Category Selected",
+          mode,
           correctAnswers,
           totalQuestions,
           percentageCorrect,
@@ -58,20 +66,52 @@ export default function Summary({
     }
   };
 
+  const handleSnapshot = async () => {
+    if (!focusRef.current) return;
+    const canvas = await html2canvas(focusRef.current);
+    const imgData = canvas.toDataURL("image/png");
+    setSnapshot(imgData);
+  };
+
+  const handlePrint = () => {
+    if (!snapshot) return;
+    const printWindow = window.open("", "_blank");
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Focus Areas Snapshot</title>
+          <style>
+            @media print {
+              button { display: none !important; }
+            }
+          </style>
+        </head>
+        <body style="text-align: center;">
+          <h2>Focus Areas for ${firstName}</h2>
+          <img src="${snapshot}" style="max-width: 100%;" />
+          <br>
+          <button onclick="window.print()">Print</button>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
+
   return (
     <div id="summary">
       <img src={quizCompleteImg} alt="Quiz Complete" />
       <h2>Well done, {firstName}!</h2>
 
-      {/* ✅ Category and Quiz Completed Message - OUTSIDE of the list */}
       <div className="summary-header">
         <h4>
           Category: <span className="category-text">{category}</span>
         </h4>
+        <h4>
+          Mode of Assessment: <span className="mode-text">{mode}</span>
+        </h4>
         <h4>QUIZ COMPLETED!</h4>
       </div>
 
-      {/* ✅ Updated Quiz Statistics with Circular Design */}
       <div id="summary-stats" className="score-design">
         <div className="stat">
           <CircularProgressbar
@@ -99,7 +139,6 @@ export default function Summary({
         </div>
       </div>
 
-      {/* ✅ Q&A Summary - Wrapped in a separate div */}
       <div className="qa-summary">
         <h4>📝 Your Answers</h4>
         <ol>
@@ -121,23 +160,30 @@ export default function Summary({
         </ol>
       </div>
 
-      {/* ✅ Areas to Focus On - OUTSIDE of the list and using div instead of ul/li */}
-      <div className="focus-areas">
-        <div id="webdev-focus-areas">
-          {/* Replacing <ul><li> with <div> elements */}
-          {category === "Web Development" && (
-            <WebDevFocus userAnswers={userAnswers} questions={questions} />
-          )}
-          {category === "Mobile Development" && (
-            <MobileDevFocus userAnswers={userAnswers} questions={questions} />
-          )}
-          {category === "Networking" && (
-            <NetworkingFocus userAnswers={userAnswers} questions={questions} />
-          )}
-          {category === "Software Engineering Principles" && (
-            <SWEPFocus userAnswers={userAnswers} questions={questions} />
-          )}
-        </div>
+      {/* ✅ Focus Areas Section with Snapshot Feature */}
+      <div className="focus-areas" ref={focusRef}>
+        {category === "Web Development" && (
+          <WebDevFocus userAnswers={userAnswers} questions={questions} />
+        )}
+        {category === "Mobile Development" && (
+          <MobileDevFocus userAnswers={userAnswers} questions={questions} />
+        )}
+        {category === "Networking" && (
+          <NetworkingFocus userAnswers={userAnswers} questions={questions} />
+        )}
+        {category === "Software Engineering Principles" && (
+          <SWEPFocus userAnswers={userAnswers} questions={questions} />
+        )}
+      </div>
+
+      {/* ✅ Snapshot Buttons */}
+      <div className="button-group">
+        <button onClick={handleSnapshot}>📸 Take Snapshot</button>
+        {snapshot && (
+          <button className="print-button" onClick={handlePrint}>
+            🖨️ Print Snapshot
+          </button>
+        )}
       </div>
 
       <div className="button-group">

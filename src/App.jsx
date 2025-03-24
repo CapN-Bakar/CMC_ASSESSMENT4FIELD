@@ -13,7 +13,8 @@ import Summary from "./components/Summary";
 function SummaryPageWrapper() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { firstName, userAnswers, questions, category } = location.state || {};
+  const { firstName, userAnswers, questions, category, mode } =
+    location.state || {};
 
   console.log("✅ SummaryPageWrapper received:", location.state);
 
@@ -23,7 +24,8 @@ function SummaryPageWrapper() {
     !Array.isArray(userAnswers) ||
     userAnswers.length === 0 ||
     !Array.isArray(questions) ||
-    questions.length === 0
+    questions.length === 0 ||
+    !mode
   ) {
     console.error("🚨 Invalid data in SummaryPageWrapper! Redirecting...");
     navigate("/", { replace: true });
@@ -36,6 +38,7 @@ function SummaryPageWrapper() {
       userAnswers={userAnswers}
       questions={questions}
       category={category}
+      mode={mode}
       onReset={() => navigate("/")}
     />
   );

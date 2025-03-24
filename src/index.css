@@ -616,3 +616,15 @@ button:hover {
   color: #0056b3;
 }
 
+#snapshot-preview {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#snapshot-preview img {
+  max-width: 100%;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+

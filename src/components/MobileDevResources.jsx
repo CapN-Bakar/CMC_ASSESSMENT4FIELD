@@ -1,112 +1,122 @@
 export default function MobileDevResources({ percentage }) {
+  // Existing logic to determine resources based on percentage...
   let resources = {
     learningMaterials: [],
     miniProject: "",
   };
 
   if (percentage <= 37.5) {
-    // Beginner Level (0-3 correct)
     resources.learningMaterials = [
       {
-        title: "Google Android Developer Guide",
-        link: "https://developer.android.com/guide",
+        name: "Google Android Developer Guide",
+        url: "https://developer.android.com/guide",
       },
       {
-        title: "iOS Human Interface Guidelines",
-        link: "https://developer.apple.com/design/human-interface-guidelines/",
+        name: "iOS Human Interface Guidelines",
+        url: "https://developer.apple.com/design/human-interface-guidelines/",
       },
       {
-        title: "Flutter Official Docs - Getting Started",
-        link: "https://docs.flutter.dev/get-started/install",
+        name: "Flutter Official Docs - Getting Started",
+        url: "https://docs.flutter.dev/get-started/install",
       },
       {
-        title: "React Native - Basics",
-        link: "https://reactnative.dev/docs/getting-started",
+        name: "React Native - Basics",
+        url: "https://reactnative.dev/docs/getting-started",
       },
     ];
     resources.miniProject =
       "Build a simple mobile UI with static content (React Native, Flutter, or Android XML).";
   } else if (percentage <= 62.5) {
-    // Intermediate Level (4-5 correct)
     resources.learningMaterials = [
       {
-        title: "Jetpack Compose - Android UI Toolkit",
-        link: "https://developer.android.com/jetpack/compose",
+        name: "Jetpack Compose - Android UI Toolkit",
+        url: "https://developer.android.com/jetpack/compose",
       },
       {
-        title: "Swift UI - Apple Official Docs",
-        link: "https://developer.apple.com/documentation/swiftui/",
+        name: "Swift UI - Apple Official Docs",
+        url: "https://developer.apple.com/documentation/swiftui/",
       },
       {
-        title: "Managing State in React Native",
-        link: "https://reactnative.dev/docs/state",
+        name: "Managing State in React Native",
+        url: "https://reactnative.dev/docs/state",
       },
       {
-        title: "Bloc State Management for Flutter",
-        link: "https://bloclibrary.dev/",
+        name: "Bloc State Management for Flutter",
+        url: "https://bloclibrary.dev/",
       },
     ];
     resources.miniProject =
       "Build a mobile app that fetches and displays data from an API.";
   } else if (percentage <= 87.5) {
-    // Advanced Intermediate (6-7 correct)
     resources.learningMaterials = [
       {
-        title: "Best Practices in Mobile Architecture",
-        link: "https://developer.android.com/jetpack/guide",
+        name: "Best Practices in Mobile Architecture",
+        url: "https://developer.android.com/jetpack/guide",
       },
       {
-        title: "Effective State Management in Flutter",
-        link: "https://flutter.dev/docs/development/data-and-backend/state-mgmt",
+        name: "Effective State Management in Flutter",
+        url: "https://flutter.dev/docs/development/data-and-backend/state-mgmt",
       },
       {
-        title: "Optimizing React Native Performance",
-        link: "https://reactnative.dev/docs/performance",
+        name: "Optimizing React Native Performance",
+        url: "https://reactnative.dev/docs/performance",
       },
       {
-        title: "Mobile App Security Guidelines",
-        link: "https://owasp.org/www-project-mobile-security-testing-guide/",
+        name: "Mobile App Security Guidelines",
+        url: "https://owasp.org/www-project-mobile-security-testing-guide/",
       },
     ];
     resources.miniProject =
       "Create a mobile e-commerce app with authentication and local storage.";
   } else {
-    // Expert Level (8 correct)
     resources.learningMaterials = [
       {
-        title: "Advanced Android App Architecture",
-        link: "https://developer.android.com/topic/architecture",
+        name: "Advanced Android App Architecture",
+        url: "https://developer.android.com/topic/architecture",
       },
       {
-        title: "Swift Performance Optimization",
-        link: "https://developer.apple.com/documentation/swift/optimizing-performance",
+        name: "Swift Performance Optimization",
+        url: "https://developer.apple.com/documentation/swift/optimizing-performance",
       },
       {
-        title: "React Native - Native Modules",
-        link: "https://reactnative.dev/docs/native-modules-intro",
+        name: "React Native - Native Modules",
+        url: "https://reactnative.dev/docs/native-modules-intro",
       },
       {
-        title: "Flutter - Advanced Performance Tuning",
-        link: "https://flutter.dev/docs/perf/rendering",
+        name: "Flutter - Advanced Performance Tuning",
+        url: "https://flutter.dev/docs/perf/rendering",
       },
     ];
     resources.miniProject =
       "Develop a full-fledged mobile app with push notifications, real-time database, and offline mode.";
   }
 
+  // Log received data (optional, kept from original)
+  console.log("📌 MobileDevResources Received Data:", { percentage });
+
   return (
     <div id="mobile-dev-resources">
+      {" "}
+      {/* Keep unique ID */}
       <h3>📚 Recommended Learning Materials</h3>
-      <ul>
-        {resources.learningMaterials.map((item, index) => (
-          <li key={index}>
-            <a href={item.link} target="_blank" rel="noopener noreferrer">
-              {item.title}
-            </a>
-          </li>
-        ))}
-      </ul>
-
+      {resources.learningMaterials.length > 0 ? (
+        <div className="resource-list">
+          {" "}
+          {/* Use class from WebDevResources */}
+          {resources.learningMaterials.map((material, index) => (
+            <div key={index} className="resource-item">
+              {" "}
+              {/* Use class from WebDevResources */}
+              {/* Ensure keys are 'name' and 'url' */}
+              <a href={material.url} target="_blank" rel="noopener noreferrer">
+                {material.name}
+              </a>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>✅ No specific materials recommended based on this score.</p> // Added a fallback message
+      )}
       <h3>💡 Mini-Project</h3>
       <p>{resources.miniProject}</p>
     </div>

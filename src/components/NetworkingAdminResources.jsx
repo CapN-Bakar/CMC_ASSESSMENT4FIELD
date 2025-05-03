@@ -1,9 +1,9 @@
 export default function NetworkingAdminResources({ percentage }) {
+  // Existing logic to determine resources based on percentage...
   let learningMaterials = [];
   let miniProject = "";
 
   if (percentage <= 37.5) {
-    // Beginner Level (0-3 correct)
     learningMaterials = [
       {
         name: "W3Schools - Networking Basics",
@@ -25,38 +25,36 @@ export default function NetworkingAdminResources({ percentage }) {
     miniProject =
       "💡 Set up a local network and test connectivity using ping & traceroute.";
   } else if (percentage <= 62.5) {
-    // Intermediate Level (4-5 correct)
     learningMaterials = [
       {
         name: "NetworkChuck - Learn Networking for Beginners (YouTube)",
-        url: "https://www.youtube.com/watch?v=qiQR5rTSshw",
-      },
+        url: "https://www.youtube.com/watch?v=6_eQUFZWlKE",
+      }, // Kept YouTube link
       {
-        name: "Udemy - TCP/IP Networking Course",
-        url: "https://www.udemy.com/course/tcp-ip/",
-      },
+        name: "Coursera - Introduction to TCP/IP",
+        url: "https://www.coursera.org/learn/tcpip",
+      }, // Replaced Udemy TCP/IP course
       {
         name: "Wireshark University - Network Packet Analysis",
         url: "https://www.wireshark.org/docs/wsug_html_chunked/",
       },
       {
-        name: "Coursera - Computer Networking Fundamentals",
-        url: "https://www.coursera.org/learn/computer-networking",
-      },
+        name: "GeeksforGeeks - TCP/IP Model",
+        url: "https://www.geeksforgeeks.org/tcp-ip-model/",
+      }, // Added alternative resource
     ];
     miniProject =
       "💡 Use Wireshark to analyze and troubleshoot network packets.";
   } else if (percentage <= 87.5) {
-    // Advanced Intermediate (6-7 correct)
     learningMaterials = [
       {
         name: "Advanced Networking - Cisco Certified Network Associate (CCNA)",
         url: "https://learningnetwork.cisco.com/s/ccna",
       },
       {
-        name: "AWS Networking Specialization - Cloud Networking",
-        url: "https://www.udemy.com/course/aws-advanced-networking-specialty-exam-prep/",
-      },
+        name: "AWS Networking Essentials - Official Docs",
+        url: "https://aws.amazon.com/getting-started/aws-networking-essentials/",
+      }, // Replaced Udemy AWS course
       {
         name: "Cybersecurity & Networking - Penetration Testing Guide",
         url: "https://www.offensive-security.com/metasploit-unleashed/",
@@ -69,7 +67,6 @@ export default function NetworkingAdminResources({ percentage }) {
     miniProject =
       "💡 Build a secure API gateway using Nginx as a reverse proxy.";
   } else {
-    // Expert Level (8 correct)
     learningMaterials = [
       {
         name: "CCNP Advanced Networking",
@@ -82,7 +79,7 @@ export default function NetworkingAdminResources({ percentage }) {
       {
         name: "Implementing Scalable Network Architecture (AWS, Azure, GCP)",
         url: "https://cloudacademy.com/",
-      },
+      }, // Note: Cloud Academy is subscription-based, consider AWS/Azure/GCP specific docs if needed
       {
         name: "Advanced Network Penetration Testing",
         url: "https://www.offensive-security.com/metasploit-unleashed/",
@@ -92,19 +89,32 @@ export default function NetworkingAdminResources({ percentage }) {
       "💡 Configure a cloud-based enterprise network using AWS Virtual Private Cloud (VPC).";
   }
 
+  // Log received data (optional, kept from original)
+  console.log("📌 NetworkingAdminResources Received Data:", { percentage });
+
   return (
     <div id="networking-admin-resources">
+      {" "}
+      {/* Keep unique ID */}
       <h3>📚 Recommended Learning Materials</h3>
-      <ul>
-        {learningMaterials.map((material, index) => (
-          <li key={index}>
-            <a href={material.url} target="_blank" rel="noopener noreferrer">
-              {material.name}
-            </a>
-          </li>
-        ))}
-      </ul>
-
+      {learningMaterials.length > 0 ? (
+        <div className="resource-list">
+          {" "}
+          {/* Use class from WebDevResources */}
+          {learningMaterials.map((material, index) => (
+            <div key={index} className="resource-item">
+              {" "}
+              {/* Use class from WebDevResources */}
+              {/* Keys 'name' and 'url' are already used */}
+              <a href={material.url} target="_blank" rel="noopener noreferrer">
+                {material.name}
+              </a>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>✅ No specific materials recommended based on this score.</p> // Added a fallback message
+      )}
       <h3>💡 Mini-Project</h3>
       <p>{miniProject}</p>
     </div>

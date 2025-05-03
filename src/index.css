@@ -350,11 +350,11 @@ header h1 {
 }
 
 #summary .user-answer.correct {
-  color: #a3e9a4; /* Lighter Green */
+  color: #24b327; /* Lighter Green */
 }
 
 #summary .user-answer.wrong {
-   color: #f4a7a8; /* Lighter Red */
+   color: #f7171b; /* Lighter Red */
 }
 
 #summary .user-answer.skipped {
